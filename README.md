@@ -17,7 +17,7 @@ The house that logs built. Compiles profile data from SLURM outfile directory in
 - modify code: 
     - remove setwd() and #examples, leaving only the function
     - set pathIn parameter default to "./", ```pathIn = "./"```  
-    - Replace ```return(res)``` with ```write.csv(logDF, "./desired/location/logDF.csv")```
+    - Replace ```return(res)``` with ```write.csv(res, "./desired/location/logDF.csv")```
     - cd to relevant logs folder
     - on commandline ```> Rscript logCabin.R```
                
