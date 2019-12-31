@@ -1,0 +1,101 @@
+==========================================
+SLURM_JOB_ID = 16752100
+SLURM_NODELIST = c10-75
+==========================================
+before srun in dir
+/scratch/esque/16752100/37
+contents
+total 543736
+drwxrwxr-x 2 esque esque      4096 Dec 30 15:35 .
+drwxrwxr-x 3 esque esque      4096 Dec 30 15:35 ..
+-rw-rw-r-- 1 esque esque       452 Dec 30 14:08 control.rds
+-rw-rw-r-- 1 esque esque 551364680 Dec 20 12:49 DOWL_apr_Clean.rds
+-rw-rw-r-- 1 esque esque       613 Dec 20 12:48 DOWL_covar.rds
+-rw-rw-r-- 1 esque esque   4528395 Dec 20 12:48 DOWL_kLOCO_Clean.rds
+-rwxr-xr-x 1 esque esque       835 Dec 30 14:32 permuLite_Rcode.R
+-rw-rw-r-- 1 esque esque    814795 Dec 20 12:47 pmap.rds
+-rw-rw-r-- 1 esque esque     50482 Dec 20 12:48 rawPheno.rds
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(qtl2)
+>   #Read in inputs
+>   apr <- readRDS('DOWL_apr_Clean.rds')
+>   pheno <- readRDS('rawPheno.rds')
+>   kLOCO <- readRDS('DOWL_kLOCO_Clean.rds')
+>   covar <- readRDS('DOWL_covar.rds')
+>   ctrl <- readRDS('control.rds')
+>   pmap <- readRDS('pmap.rds')
+>   #Intialize array id - array id will only function as a sequential designation
+>   args<-as.integer(unlist(strsplit(commandArgs(TRUE),' ')))
+>   print(args)
+[1] 37
+>   arrayid <-args[1]
+>   print(arrayid)
+[1] 37
+>   #Cores controlled from command line
+>   #No longer a need for control file.
+>   start <- ctrl[arrayid, 2]
+>   stop  <- ctrl[arrayid, 3]
+>   #Run scan1perm
+>   perm <- scan1perm(apr,
++   pheno[,start:stop, drop = FALSE],
++   kinship = kLOCO,
++   addcovar = covar,
++   perm_Xsp = TRUE,
++   chr_lengths = chr_lengths(pmap),
++   cores =2, 
++   n_perm =50)
+>   saveRDS(perm, file = paste0('permuLiteOut_',arrayid,'.rds'))
+>   
+> 
+after srun, directory
+total 543748
+drwxrwxr-x 2 esque esque      4096 Dec 30 16:04 .
+drwxrwxr-x 3 esque esque      4096 Dec 30 15:35 ..
+-rw-rw-r-- 1 esque esque       452 Dec 30 14:08 control.rds
+-rw-rw-r-- 1 esque esque 551364680 Dec 20 12:49 DOWL_apr_Clean.rds
+-rw-rw-r-- 1 esque esque       613 Dec 20 12:48 DOWL_covar.rds
+-rw-rw-r-- 1 esque esque   4528395 Dec 20 12:48 DOWL_kLOCO_Clean.rds
+-rw-rw-r-- 1 esque esque      6196 Dec 30 16:04 permuLiteOut_37.rds
+-rwxr-xr-x 1 esque esque       835 Dec 30 14:32 permuLite_Rcode.R
+-rw-rw-r-- 1 esque esque    814795 Dec 20 12:47 pmap.rds
+-rw-rw-r-- 1 esque esque     50482 Dec 20 12:48 rawPheno.rds
+work=
+scr=/scratch/esque/16752100/37
+End of program at Mon Dec 30 16:04:48 PST 2019
+Name                : permuLite
+User                : esque
+Partition           : high
+Nodes               : c10-75
+Cores               : 2
+GPUs                : 0
+State               : RUNNING
+Submit              : 2019-12-30T15:35:20
+Start               : 2019-12-30T15:35:20
+End                 : --
+Reserved walltime   : 00:49:00
+Used walltime       : 00:29:29
+Used CPU time       : 00:58:22
+% User (Computation): 75.09%
+% System (I/O)      : 24.91%
+Mem reserved        : 2500M/core
+Max Mem used        : 3.98G (c10-75)
+Max Disk Write      : 61.44K (c10-75)
+Max Disk Read       : 541.04M (c10-75)
