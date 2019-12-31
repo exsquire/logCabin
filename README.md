@@ -3,7 +3,7 @@ The house that logs built. Compiles profile data from SLURM outfile directory in
 
 **Purpose:** Parallel array jobs can generate hundreds/thousands of outfiles containing useful profile data. Having this data in a matrix format makes summarizing and optimizing job performance easy.  
 
-**Method:** Iteratively grep SLURM profile keywords from outfiles, text process, and combine into matrix. 
+**Method:** Iteratively grep SLURM profile keywords from outfile directory, text-process, and combine into matrix. 
 
 **Suggested Use:** 
 - cd to relevant project folder
