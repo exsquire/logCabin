@@ -29,7 +29,7 @@ logCabin <- function(pathIn, pull = c("Name",
       next
     }
     #Check if matches are sequential
-    stopifnot(all(abs(diff(reg)) == 1))
+    #stopifnot(all(abs(diff(reg)) == 1))
     
     pos <- reg[1]
     
